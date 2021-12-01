@@ -5,26 +5,28 @@ let error = document.createElement("p");
 
 form.addEventListener('submit', addListItem);
 ul.addEventListener('click', changeList);
-
+input.addEventListener("blur", onBlur);
 
 function addListItem(e) {
   e.preventDefault();
-  input.onblur = function () {
-    if (isAlphaNumeric(input.value)) {
-      error.innerText = '';
-      const li = createListItem();
-      ul.append(li);
-      input.classList.remove("invalid");
-      input.focus();
-    } else {
-      input.classList.add("invalid");
+  if (isAlphaNumeric(input.value)) {
+    const li = createListItem();
+    ul.append(li);
+    input.focus();
+  }
+}
+
+function onBlur(e) {
+  let target= e.target;
+  if (isAlphaNumeric(target.value)) {
+    error.innerText = '';
+    input.classList.remove("invalid");
+  } else {
+    input.classList.add("invalid");
       error.innerText = "Поле может состоять из двух до пятнадцати символов латинского алфавита, содержать заглавные и строчные буквы, цифры."
       ul.before(error);
-    }
-   }();
   }
-
-  
+}
 
 function isAlphaNumeric(value) {
  return /^([a-zA-Z0-9_-\s]){2,15}$/gi.test(value);
