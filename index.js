@@ -9,20 +9,25 @@ ul.addEventListener('click', changeList);
 
 function addListItem(e) {
   e.preventDefault();
-  if (isAlphaNumeric(input.value)) {
-    error.innerText = '';
-    const li = createListItem();
-    ul.append(li);
-    input.classList.remove("invalid");
-  } else {
-    input.classList.add("invalid");
-    error.innerText = "Поле может состоять из двух до пятнадцати символов латинского алфавита, содержать заглавные и строчные буквы, цифры."
-    ul.before(error);
+  input.onblur = function () {
+    if (isAlphaNumeric(input.value)) {
+      error.innerText = '';
+      const li = createListItem();
+      ul.append(li);
+      input.classList.remove("invalid");
+      input.focus();
+    } else {
+      input.classList.add("invalid");
+      error.innerText = "Поле может состоять из двух до пятнадцати символов латинского алфавита, содержать заглавные и строчные буквы, цифры."
+      ul.before(error);
+    }
+   }();
   }
-}
+
+  
 
 function isAlphaNumeric(value) {
- return /^([a-zA-Z0-9_-]){2,15}$/gi.test(value);
+ return /^([a-zA-Z0-9_-\s]){2,15}$/gi.test(value);
 }
 
 function removeBtn() {
@@ -39,8 +44,6 @@ function createListItem() {
   li.append(button);
   return li;
 }
-
-f
 
 function changeColor(e) {
   e.classList.toggle("li-green");
